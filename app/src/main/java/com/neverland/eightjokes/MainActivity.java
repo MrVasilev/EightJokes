@@ -1,30 +1,19 @@
 package com.neverland.eightjokes;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.neverland.eightjokes.parse.ParseManager;
-import com.parse.Parse;
-import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.parse.SignUpCallback;
+import com.neverland.eightjokes.entities.Joke;
 
 
 public class MainActivity extends ActionBarActivity
@@ -50,34 +39,11 @@ public class MainActivity extends ActionBarActivity
         mTitle = getTitle();
 
         // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
+        Joke joke = new Joke();
 
-        //Init Parse
-        Parse.initialize(this, Constants.PARSE_APPLICATION_ID, Constants.PARSE_CLIENT_KEY);
-
-        //Save User in Parse
-        ParseUser user = new ParseUser();
-
-        user.setUsername("Jack Daniels");
-        user.setPassword("drink@drink&repied");
-        user.setEmail("jack_dan@gmail.com");
-        user.put("phone", "0898 77 12 43");
-
-        user.signUpInBackground(new SignUpCallback() {
-            @Override
-            public void done(ParseException e) {
-
-                if(e == null){
-                    Toast.makeText(MainActivity.this, "User was SignUp successfully.", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(MainActivity.this, "User CANNOT to sign up!!!", Toast.LENGTH_SHORT).show();
-                    Log.d(Constants.TAG, "User sign up operation FAILED : " + e.getMessage());
-                }
-            }
-        });
+        joke.saveInBackground();
     }
 
     @Override
