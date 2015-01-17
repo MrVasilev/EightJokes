@@ -2,7 +2,6 @@ package com.neverland.eightjokes;
 
 import android.app.Application;
 
-import com.neverland.eightjokes.entities.Category;
 import com.neverland.eightjokes.entities.Comment;
 import com.neverland.eightjokes.entities.Joke;
 import com.neverland.eightjokes.entities.User;
@@ -22,7 +21,9 @@ public class EightJokesApplication extends Application {
         ParseObject.registerSubclass(User.class);
         ParseObject.registerSubclass(Joke.class);
         ParseObject.registerSubclass(Comment.class);
-        ParseObject.registerSubclass(Category.class);
+
+        //Activate Local Datastore
+//        Parse.enableLocalDatastore(this);
 
         //Init Parse
         Parse.initialize(this, Constants.PARSE_APPLICATION_ID, Constants.PARSE_CLIENT_KEY);

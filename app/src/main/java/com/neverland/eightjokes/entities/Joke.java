@@ -14,8 +14,6 @@ import org.json.JSONArray;
 public class Joke extends ParseObject {
 
     public Joke(){
-        put("rate_up", 0);
-        put("rate_down", 0);
     }
 
     public User getAuthor() {
