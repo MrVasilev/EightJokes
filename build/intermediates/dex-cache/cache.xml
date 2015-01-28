@@ -37,6 +37,13 @@
         <dex dex="D:\Development\AndroidStudio\EightJokes\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-5da21ef642bc3c486efe5ca9013db1f1bb8b7e59.jar" />
     </item>
     <item
+        jar="D:\Development\AndroidStudio\EightJokes\app\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\3.22.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="11b7b899500f0518d19e971dd7626503ad96514b">
+        <dex dex="D:\Development\AndroidStudio\EightJokes\app\build\intermediates\pre-dexed\debug\classes-3f9dc74d1fc1b8b1a78ceed7476140e7cde187f3.jar" />
+    </item>
+    <item
         jar="C:\Users\Vasilev\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-android\1.1.4\129874135e6081269ace2312092031558865de12\bolts-android-1.1.4.jar"
         jumboMode="false"
         revision="21.1.1"
