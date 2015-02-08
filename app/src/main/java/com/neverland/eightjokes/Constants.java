@@ -10,5 +10,5 @@ public class Constants {
     public static final String PARSE_CLIENT_KEY = "i5Ohn2mwv31QRhwJbGsJzI0hIwc2OGgNZJDXVqf0";
 
     //TAG
-    public static final String TAG = "com.neverland.eightjokes.TAG";
+    public static final String TAG = "EIGHT_JOKES_TAG";
 }
