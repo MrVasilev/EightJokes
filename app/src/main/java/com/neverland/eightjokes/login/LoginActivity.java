@@ -97,12 +97,12 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         Bundle extras = getIntent().getExtras();
         String message = extras.getString("message");
 
-        if (message.equals(R.string.log_in_button_clicked_message)) {
+        if (message.equals(getString(R.string.log_in_button_clicked_message))) {
 
             nameEditText.setVisibility(View.GONE);
             signUpLogInButton.setText(R.string.log_in_button_label);
 
-        } else if (message.equals(R.string.sign_up_button_clicked_message)) {
+        } else if (message.equals(getString(R.string.sign_up_button_clicked_message))) {
 
             nameEditText.setVisibility(View.VISIBLE);
             signUpLogInButton.setText(R.string.sing_up_button_label);
@@ -135,13 +135,13 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     private void signUpLogInWithEmail() {
 
-        if(nameEditText.getVisibility() == View.GONE){
+        if (nameEditText.getVisibility() == View.GONE) {
 
 
         }
     }
 
-    private boolean checkSignUpFields(boolean isNameFiledVisible){
+    private boolean checkSignUpFields(boolean isNameFiledVisible) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -149,17 +149,17 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         String passwordText = passwordEditText.getText().toString();
         String nameText = nameEditText.getText().toString();
 
-        if(isNameFiledVisible){
+        if (isNameFiledVisible) {
 
-            if(!TextUtils.isEmpty(nameText) && !TextUtils.isEmpty(emailText) && !TextUtils.isEmpty(passwordText)){
+            if (!TextUtils.isEmpty(nameText) && !TextUtils.isEmpty(emailText) && !TextUtils.isEmpty(passwordText)) {
 
                 builder.setTitle("Required fields");
                 builder.setMessage("You should fill all fields.");
             }
 
-        }else{
+        } else {
 
-            if(!TextUtils.isEmpty(emailText) && !TextUtils.isEmpty(passwordText)){
+            if (!TextUtils.isEmpty(emailText) && !TextUtils.isEmpty(passwordText)) {
 
                 builder.setTitle("Required fields");
                 builder.setMessage("You should fill all fields.");
