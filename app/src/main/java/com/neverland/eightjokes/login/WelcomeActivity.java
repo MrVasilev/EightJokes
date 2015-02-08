@@ -40,9 +40,9 @@ public class WelcomeActivity extends Activity implements View.OnClickListener {
         Intent loginIntent = new Intent(this, LoginActivity.class);
 
         if (view.getId() == R.id.signUpButton) {
-            message = "sign_up";
+            message = getString(R.string.sign_up_button_clicked_message);
         } else if (view.getId() == R.id.logInButton) {
-            message = "log_in";
+            message = getString(R.string.log_in_button_clicked_message);
         }
 
         if (!message.equals("")) {

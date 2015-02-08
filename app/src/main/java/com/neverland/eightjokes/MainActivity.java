@@ -105,11 +105,12 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Check for currentUser and if not exists go to Welcome Screen
+     */
     private void checkForCurrentUser() {
 
-        if (Utils.isCurrentUserExists()) {
-            //Go to Main Screen
-        } else {
+        if (!Utils.isCurrentUserExists()) {
             //Go to Welcome screen
             Intent intent = new Intent(this, WelcomeActivity.class);
             startActivity(intent);

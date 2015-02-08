@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">EightJokes</string>
-    <string name="title_section1">Section 1</string>
+    <string name="title_section1" translatable="false">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
     <string name="facebook_app_id">793948923975979</string>
@@ -21,5 +21,11 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="or_use_your_email_message">Or use your email</string>
+    <string name="password_label">Password</string>
+    <string name="email_label">Email</string>
+    <string name="full_name_label">Full Name</string>
+    <string name="sign_up_button_clicked_message">sign_up</string>
+    <string name="log_in_button_clicked_message">log_in</string>
 
 </resources>

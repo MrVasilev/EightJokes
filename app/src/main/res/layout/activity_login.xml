@@ -27,4 +27,67 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"></com.google.android.gms.common.SignInButton>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/or_use_your_email_message"
+        android:id="@+id/orUseEmailTextView"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:layout_below="@+id/googleLoginButton"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="@string/full_name_label"
+        android:ems="10"
+        android:id="@+id/nameEditText"
+        android:layout_marginTop="@dimen/margin_20dp"
+        android:padding="@dimen/margin_10dp"
+        android:layout_below="@+id/orUseEmailTextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/googleLoginButton"
+        android:layout_alignEnd="@+id/googleLoginButton" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:hint="@string/email_label"
+        android:id="@+id/emailEditText"
+        android:padding="@dimen/margin_10dp"
+        android:layout_below="@+id/nameEditText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/nameEditText"
+        android:layout_alignEnd="@+id/nameEditText" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/passwordEditText"
+        android:hint="@string/password_label"
+        android:padding="@dimen/margin_10dp"
+        android:layout_below="@+id/emailEditText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/emailEditText"
+        android:layout_alignEnd="@+id/emailEditText" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sing_up_button_label"
+        android:padding="@dimen/margin_20dp"
+        android:id="@+id/signUpLogInButton"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:layout_below="@+id/passwordEditText"
+        android:layout_alignRight="@+id/passwordEditText"
+        android:layout_alignEnd="@+id/passwordEditText" />
+
 </RelativeLayout>

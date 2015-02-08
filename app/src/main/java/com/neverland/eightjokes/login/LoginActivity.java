@@ -1,12 +1,17 @@
 package com.neverland.eightjokes.login;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.facebook.Request;
@@ -35,9 +40,16 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     public static final int GOOGLE_PLUS_REQUEST_CODE = 0;
     public static final int FACEBOOK_REQUEST_CODE = 1;
-    //Login buttons
+
+    //Log in buttons
     private SignInButton googleButton;
     private LoginButton facebookButton;
+    private Button signUpLogInButton;
+
+    //Log in fields
+    private EditText nameEditText;
+    private EditText emailEditText;
+    private EditText passwordEditText;
 
     // Google client to interact with Google API
     private GoogleApiClient mGoogleApiClient;
@@ -64,17 +76,36 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
         googleButton = (SignInButton) findViewById(R.id.googleLoginButton);
         facebookButton = (LoginButton) findViewById(R.id.facebookLoginButton);
+        signUpLogInButton = (Button) findViewById(R.id.signUpLogInButton);
+        nameEditText = (EditText) findViewById(R.id.nameEditText);
+        emailEditText = (EditText) findViewById(R.id.emailEditText);
+        passwordEditText = (EditText) findViewById(R.id.passwordEditText);
 
         googleButton.setOnClickListener(this);
         facebookButton.setOnClickListener(this);
+        signUpLogInButton.setOnClickListener(this);
+
+        updateUI();
+    }
+
+    /**
+     * According which button is clicked "Log in" or "Sign up"
+     * update fields, button and links on the screen.
+     */
+    private void updateUI() {
 
         Bundle extras = getIntent().getExtras();
         String message = extras.getString("message");
 
-        if (message.equals("log_in")) {
-            Toast.makeText(this, "It should be Log in screen!", Toast.LENGTH_SHORT).show();
-        } else if (message.equals("sign_up")) {
-            Toast.makeText(this, "It should be Sign up screen!", Toast.LENGTH_SHORT).show();
+        if (message.equals(R.string.log_in_button_clicked_message)) {
+
+            nameEditText.setVisibility(View.GONE);
+            signUpLogInButton.setText(R.string.log_in_button_label);
+
+        } else if (message.equals(R.string.sign_up_button_clicked_message)) {
+
+            nameEditText.setVisibility(View.VISIBLE);
+            signUpLogInButton.setText(R.string.sing_up_button_label);
         }
     }
 
@@ -85,16 +116,65 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
             case R.id.googleLoginButton:
                 initGooglePlusApiClient();
-                signInWithGooglePlus();
+                signUpWithGooglePlus();
                 break;
 
             case R.id.facebookLoginButton:
                 loginWithFacebook();
                 break;
 
+            case R.id.signUpLogInButton:
+
+                break;
+
             default:
                 break;
         }
+    }
+
+
+    private void signUpLogInWithEmail() {
+
+        if(nameEditText.getVisibility() == View.GONE){
+
+
+        }
+    }
+
+    private boolean checkSignUpFields(boolean isNameFiledVisible){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        String emailText = emailEditText.getText().toString();
+        String passwordText = passwordEditText.getText().toString();
+        String nameText = nameEditText.getText().toString();
+
+        if(isNameFiledVisible){
+
+            if(!TextUtils.isEmpty(nameText) && !TextUtils.isEmpty(emailText) && !TextUtils.isEmpty(passwordText)){
+
+                builder.setTitle("Required fields");
+                builder.setMessage("You should fill all fields.");
+            }
+
+        }else{
+
+            if(!TextUtils.isEmpty(emailText) && !TextUtils.isEmpty(passwordText)){
+
+                builder.setTitle("Required fields");
+                builder.setMessage("You should fill all fields.");
+            }
+        }
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+
+        return false;
     }
 
     /**
@@ -106,7 +186,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
         final ProgressDialog progressDialog = ProgressDialog.show(LoginActivity.this, "", "Logging in...", true);
 
-        List<String> permissions = Arrays.asList(ParseFacebookUtils.Permissions.User.EMAIL);
+        List<String> permissions = Arrays.asList(ParseFacebookUtils.Permissions.User.EMAIL, ParseFacebookUtils.Permissions.User.ABOUT_ME);
 
         ParseFacebookUtils.logIn(permissions, this, FACEBOOK_REQUEST_CODE, new LogInCallback() {
             @Override
@@ -166,24 +246,31 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
                         if (user != null) {
 
-                            ParseUser currentUser = ParseUser.getCurrentUser();
+                            ParseUser tempUser = ParseUser.getCurrentUser();
 
-                            currentUser.setUsername(user.getName());
+                            String name = user.getName();
+                            String email = (user.getProperty("email") != null) ? (String) user.getProperty("email") : "";
+                            String password = email + name;
 
-                            if (user.getProperty("email") != null) {
+                            ParseUser currentUser = createUserAndSet(name, email, password);
 
-                                currentUser.setEmail((String) user.getProperty("email"));
-                            }
+                            if (user.getProperty("birthday") != null)
+                                currentUser.put("birthday", user.getProperty("birthday"));
 
-                            if (user.getBirthday() != null) {
+                            currentUser.signUpInBackground(new SignUpCallback() {
+                                @Override
+                                public void done(ParseException e) {
 
-                                currentUser.put("birthday", user.getBirthday());
-                            }
+                                    if (e == null) {
+                                        Log.d(Constants.TAG, "User sign up with Facebook account.");
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        Log.d(Constants.TAG, "Something WRONG when user try to sign up with Facebook account!!!");
+                                    }
+                                }
+                            });
 
-                            currentUser.saveInBackground();
-
-                            // Now add the data to the UI elements
-                            Log.d(Constants.TAG, "");
+                            tempUser.deleteInBackground();
 
                         } else if (response.getError() != null) {
                             // handle error
@@ -229,7 +316,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     /**
      * Sign-in into Google
      */
-    private void signInWithGooglePlus() {
+    private void signUpWithGooglePlus() {
 
         mSignInClicked = true;
 
@@ -265,15 +352,11 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
 
                 Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-                String personName = currentPerson.getDisplayName();
+                String name = currentPerson.getDisplayName();
                 String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
-                String password = email + personName;
+                String password = email + name;
 
-                ParseUser currentUser = new ParseUser();
-
-                currentUser.setUsername(personName);
-                currentUser.setEmail(email);
-                currentUser.setPassword(password);
+                ParseUser currentUser = createUserAndSet(name, email, password);
 
                 if (currentPerson.hasBirthday())
                     currentUser.put("birthday", currentPerson.getBirthday());
@@ -285,6 +368,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                         if (e == null) {
                             Log.d(Constants.TAG, "User sign up with Google Plus account.");
                         } else {
+                            Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                             Log.d(Constants.TAG, "Something WRONG when user try to sign up with Google Plus account!!!");
                         }
                     }
@@ -332,5 +416,23 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 resolveSignInError();
             }
         }
+    }
+
+    /**
+     * Create ParseUser and set the third main properties
+     *
+     * @param name
+     * @param email
+     * @param password
+     * @return
+     */
+    private ParseUser createUserAndSet(String name, String email, String password) {
+
+        ParseUser currentUser = new ParseUser();
+
+        currentUser.setUsername(name);
+        currentUser.setEmail(email);
+        currentUser.setPassword(password);
+        return currentUser;
     }
 }
