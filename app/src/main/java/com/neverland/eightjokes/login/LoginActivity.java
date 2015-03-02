@@ -1,13 +1,10 @@
 package com.neverland.eightjokes.login;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,10 +22,14 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.neverland.eightjokes.Constants;
+import com.neverland.eightjokes.MainActivity;
 import com.neverland.eightjokes.R;
+import com.neverland.eightjokes.Utils;
+import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -50,6 +51,8 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     private EditText nameEditText;
     private EditText emailEditText;
     private EditText passwordEditText;
+
+    private ProgressDialog loadingProgressDialog;
 
     // Google client to interact with Google API
     private GoogleApiClient mGoogleApiClient;
@@ -80,6 +83,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         nameEditText = (EditText) findViewById(R.id.nameEditText);
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
+        loadingProgressDialog = new ProgressDialog(this);
 
         googleButton.setOnClickListener(this);
         facebookButton.setOnClickListener(this);
@@ -124,7 +128,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 break;
 
             case R.id.signUpLogInButton:
-
+                signUpLogInWithEmail();
                 break;
 
             default:
@@ -132,49 +136,101 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         }
     }
 
-
+    /**
+     *  Login user with Own Email address
+     */
     private void signUpLogInWithEmail() {
 
-        if (nameEditText.getVisibility() == View.GONE) {
+        if (checkSignUpFields()) {
 
+            String emailText = emailEditText.getText().toString().trim();
+            final String passwordText = passwordEditText.getText().toString().trim();
 
+            if(nameEditText.getVisibility() == View.VISIBLE){
+
+                loadingProgressDialog.setMessage(getString(R.string.loading_sign_up_message));
+
+                String nameText = nameEditText.getText().toString().trim();
+
+                ParseUser currentUser = createUserAndSet(nameText, emailText, passwordText);
+
+                currentUser.signUpInBackground(new SignUpCallback() {
+                    @Override
+                    public void done(ParseException e) {
+
+                        if (e == null) {
+                            goToMainActivity();
+                            Log.d(Constants.TAG, "User sign up with  own email.");
+                        } else {
+                            Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.d(Constants.TAG, "Something WRONG when user try to sign up with own email!!!");
+                        }
+
+                        loadingProgressDialog.dismiss();
+                    }
+                });
+
+            }else{
+
+                loadingProgressDialog.setMessage(getString(R.string.loading_login_message));
+
+                ParseQuery<ParseUser> query = ParseUser.getQuery();
+                query.whereEqualTo("email", emailText);
+
+                query.findInBackground(new FindCallback<ParseUser>() {
+                    @Override
+                    public void done(List<ParseUser> parseUsers, ParseException e) {
+
+                        if(e == null){
+
+                            if(parseUsers.size() > 0){
+
+                                ParseUser user = parseUsers.get(0);
+                                ParseUser.logInInBackground(user.getUsername(), passwordText, new LogInCallback() {
+                                    @Override
+                                    public void done(ParseUser parseUser, ParseException e) {
+
+                                        if (e == null) {
+                                            goToMainActivity();
+                                            Log.d(Constants.TAG, "User login with  own email.");
+                                        } else {
+                                            Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            Log.d(Constants.TAG, "Something WRONG when user try to login with own email!!!");
+                                        }
+                                    }
+                                });
+                            }
+                        }else{
+                            Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        loadingProgressDialog.dismiss();
+                    }
+                });
+            }
+
+            loadingProgressDialog.show();
         }
     }
 
-    private boolean checkSignUpFields(boolean isNameFiledVisible) {
+    /**
+     * Check fields if user decide to login/sign up with own email.
+     *
+     * @return
+     */
+    private boolean checkSignUpFields() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        boolean isOk = true;
 
-        String emailText = emailEditText.getText().toString();
-        String passwordText = passwordEditText.getText().toString();
-        String nameText = nameEditText.getText().toString();
+        if (nameEditText.getVisibility() == View.VISIBLE) {
 
-        if (isNameFiledVisible) {
-
-            if (!TextUtils.isEmpty(nameText) && !TextUtils.isEmpty(emailText) && !TextUtils.isEmpty(passwordText)) {
-
-                builder.setTitle("Required fields");
-                builder.setMessage("You should fill all fields.");
-            }
-
-        } else {
-
-            if (!TextUtils.isEmpty(emailText) && !TextUtils.isEmpty(passwordText)) {
-
-                builder.setTitle("Required fields");
-                builder.setMessage("You should fill all fields.");
-            }
+            isOk &= Utils.checkEditTextEmptyOrLessThenThree(nameEditText);
         }
 
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        isOk &= Utils.checkEditTextEmptyOrLessThenThree(emailEditText);
+        isOk &= Utils.checkEditTextEmptyOrLessThenThree(passwordEditText);
 
-                dialog.dismiss();
-            }
-        });
-
-        return false;
+        return isOk;
     }
 
     /**
@@ -184,7 +240,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
         ParseFacebookUtils.initialize(getString(R.string.facebook_app_id));
 
-        final ProgressDialog progressDialog = ProgressDialog.show(LoginActivity.this, "", "Logging in...", true);
+        final ProgressDialog progressDialog = ProgressDialog.show(LoginActivity.this, "", getString(R.string.loading_login_message), true);
 
         List<String> permissions = Arrays.asList(ParseFacebookUtils.Permissions.User.EMAIL, ParseFacebookUtils.Permissions.User.ABOUT_ME);
 
@@ -262,6 +318,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                                 public void done(ParseException e) {
 
                                     if (e == null) {
+                                        goToMainActivity();
                                         Log.d(Constants.TAG, "User sign up with Facebook account.");
                                     } else {
                                         Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -351,6 +408,9 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
             if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
 
+                loadingProgressDialog.setMessage(getString(R.string.loading_sign_up_message));
+                loadingProgressDialog.show();
+
                 Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
                 String name = currentPerson.getDisplayName();
                 String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
@@ -366,11 +426,14 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                     public void done(ParseException e) {
 
                         if (e == null) {
+                            goToMainActivity();
                             Log.d(Constants.TAG, "User sign up with Google Plus account.");
                         } else {
                             Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                             Log.d(Constants.TAG, "Something WRONG when user try to sign up with Google Plus account!!!");
                         }
+
+                        loadingProgressDialog.dismiss();
                     }
                 });
 
@@ -434,5 +497,16 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         currentUser.setEmail(email);
         currentUser.setPassword(password);
         return currentUser;
+    }
+
+    /**
+     * Open the Main Activity where User can start reading, commenting and etc.
+     */
+    private void goToMainActivity(){
+
+        Intent mainIntent = new Intent(this, MainActivity.class);
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(mainIntent);
+        finish();
     }
 }
