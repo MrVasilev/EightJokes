@@ -2,11 +2,13 @@ package com.neverland.eightjokes;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.neverland.eightjokes.entities.Joke;
@@ -43,6 +45,15 @@ public class JokesAdapter extends BaseAdapter {
         return position;
     }
 
+    public void addItem(Joke joke) {
+        if (joke != null)
+            allJokes.add(joke);
+    }
+
+    public void clear() {
+        allJokes.clear();
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -59,16 +70,51 @@ public class JokesAdapter extends BaseAdapter {
             viewHolder.rateDownButton = (Button) convertView.findViewById(R.id.rateDownButton);
 
             convertView.setTag(viewHolder);
-        }else{
+        } else {
 
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
         Joke currentJoke = allJokes.get(position);
 
+        viewHolder.shareButton.setOnClickListener(shareButtonOnClickListener);
         viewHolder.jokeContentTextView.setText(currentJoke.getContent());
 
         return convertView;
+    }
+
+    private View.OnClickListener shareButtonOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+            if (view != null && view.getId() == R.id.shareButton) {
+
+                View parentRow = (View) view.getParent().getParent();
+                ListView listView = (ListView) parentRow.getParent();
+                int selectedPosition = listView.getPositionForView(parentRow);
+
+                if (selectedPosition >= 0 && allJokes != null) {
+                    Joke jokeToShare = allJokes.get(selectedPosition);
+                    shareJoke(jokeToShare);
+                }
+            }
+        }
+    };
+
+    /**
+     * Create ACTION_SEND Intent which will display Share picker
+     * and send to an another User
+     */
+    private void shareJoke(Joke joke) {
+
+        if (joke != null) {
+
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, joke.getContent());
+            sendIntent.setType("text/plain");
+            activity.startActivity(sendIntent);
+        }
     }
 
     private class ViewHolder {

@@ -1,24 +1,15 @@
 package com.neverland.eightjokes;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
 
-import com.neverland.eightjokes.entities.Joke;
 import com.neverland.eightjokes.login.WelcomeActivity;
-
-import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -32,6 +23,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+
+    private int tapCounter = 0;
+    private String jokeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,15 +54,55 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     }
 
     public void onSectionAttached(int number) {
+
         switch (number) {
             case 1:
-                mTitle = getString(R.string.title_section1);
+                mTitle = getString(R.string.title_section_best_jokes);
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                mTitle = getString(R.string.title_section_last_jokes);
                 break;
             case 3:
-                mTitle = getString(R.string.title_section3);
+                mTitle = getString(R.string.title_section_animals);
+                break;
+            case 4:
+                mTitle = getString(R.string.title_section_black_humor);
+                break;
+            case 5:
+                mTitle = getString(R.string.title_section_blondes);
+                break;
+            case 6:
+                mTitle = getString(R.string.title_section_chuck_norris);
+                break;
+            case 7:
+                mTitle = getString(R.string.title_section_dark_people);
+                break;
+            case 8:
+                mTitle = getString(R.string.title_section_dirty);
+                break;
+            case 9:
+                mTitle = getString(R.string.title_section_facebook);
+                break;
+            case 10:
+                mTitle = getString(R.string.title_section_gays);
+                break;
+            case 11:
+                mTitle = getString(R.string.title_section_it);
+                break;
+            case 12:
+                mTitle = getString(R.string.title_section_little_johny);
+                break;
+            case 13:
+                mTitle = getString(R.string.title_section_men_women);
+                break;
+            case 14:
+                mTitle = getString(R.string.title_section_sex);
+                break;
+            case 15:
+                mTitle = getString(R.string.title_section_sport);
+                break;
+            case 16:
+                mTitle = getString(R.string.title_section_yo_mama);
                 break;
         }
     }
@@ -99,13 +133,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -118,114 +145,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             //Go to Welcome screen
             Intent intent = new Intent(this, WelcomeActivity.class);
             startActivity(intent);
-        }
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        private ListView jokesListView;
-        private JokesAdapter jokesAdapter;
-        private ArrayList<Joke> allJokes;
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-            jokesListView = (ListView) rootView.findViewById(R.id.jokesListView);
-
-            return rootView;
-        }
-
-        @Override
-        public void onResume() {
-            super.onResume();
-
-            allJokes = getJokesByCategory();
-            jokesAdapter = new JokesAdapter(getActivity(), allJokes);
-
-            jokesListView.setAdapter(jokesAdapter);
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
-        }
-
-        private ArrayList<Joke> getJokesByCategory() {
-
-            ArrayList<Joke> allJokesByCategory = new ArrayList<Joke>();
-            int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
-
-            Joke joke1 = new Joke();
-            Joke joke2 = new Joke();
-            Joke joke3 = new Joke();
-
-            String content1 = "This is a first joke in section %s";
-            String content2 = "This is a second joke in section %s and that joke will has longer content then other two shorter jokes. This is just to check how looks a row in ListView with long text. And may be is enough for now...";
-            String content3 = "This is a third joke in section %s. This joke will has second longest content :) :D !";
-
-            String[] arr = {String.valueOf(sectionNumber)};
-
-            switch (sectionNumber) {
-
-                case 1:
-
-                    joke1.setContent(String.format(content1, arr));
-                    joke2.setContent(String.format(content2, arr));
-                    joke3.setContent(String.format(content3, arr));
-
-                    break;
-
-                case 2:
-
-                    joke1.setContent(String.format(content1, arr));
-                    joke2.setContent(String.format(content2, arr));
-                    joke3.setContent(String.format(content3, arr));
-
-                    break;
-
-                case 3:
-
-                    joke1.setContent(String.format(content1, arr));
-                    joke2.setContent(String.format(content2, arr));
-                    joke3.setContent(String.format(content3, arr));
-
-                    break;
-
-                default:
-                    break;
-            }
-
-            allJokesByCategory.add(joke1);
-            allJokesByCategory.add(joke2);
-            allJokesByCategory.add(joke3);
-
-            return allJokesByCategory;
         }
     }
 }

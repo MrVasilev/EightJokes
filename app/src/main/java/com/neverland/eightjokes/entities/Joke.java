@@ -5,23 +5,25 @@ import com.parse.ParseObject;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
+
 /**
  * Created by Vasilev on 15.1.2015 г..
- *
+ * <p/>
  * Joke is a entry class.
  */
 @ParseClassName("Joke")
 public class Joke extends ParseObject {
 
-    public Joke(){
+    public Joke() {
     }
 
-    public User getAuthor() {
-        return (User) get("author");
+    public String getAuthor() {
+        return getString("author_name");
     }
 
-    public void setAuthor(User author) {
-        put("author", author);
+    public void setAuthor(String authorName) {
+        put("author_name", authorName);
     }
 
     public String getContent() {
@@ -40,12 +42,20 @@ public class Joke extends ParseObject {
         increment("rate_up");
     }
 
+    public void setRateUp(int value) {
+        put("rate_up", value);
+    }
+
     public int getRateDown() {
         return getInt("rate_down");
     }
 
-    public void setRateDown() {
+    public void incrementRateDown() {
         increment("rate_down");
+    }
+
+    public void setRateDown(int value) {
+        put("rate_down", value);
     }
 
     public String getCategoryName() {
@@ -56,21 +66,16 @@ public class Joke extends ParseObject {
         put("category_name", categoryName);
     }
 
-    public JSONArray getComments(){
+    public JSONArray getComments() {
         return getJSONArray("comments");
     }
 
-    public void setComments(JSONArray comments){
-        put("comments", comments);
+    public void setComments(ArrayList<Comment> comments) {
+        addAll("comments", comments);
     }
 
-    public void addComment(Comment comment){
+    public void addComment(Comment comment) {
 
-        JSONArray allComments = getComments();
-
-        if(allComments != null) {
-            allComments.put(comment);
-            setComments(allComments);
-        }
+        add("comments", comment);
     }
 }

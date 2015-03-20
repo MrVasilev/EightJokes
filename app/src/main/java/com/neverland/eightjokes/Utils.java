@@ -25,15 +25,15 @@ public class Utils {
      * @param editText
      * @return
      */
-    public static boolean checkEditTextEmptyOrLessThenThree(EditText editText){
+    public static boolean checkEditTextEmptyOrLessThenThree(EditText editText) {
 
         String enteredText = editText.getText().toString().trim();
 
-        if(TextUtils.isEmpty(enteredText)){
+        if (TextUtils.isEmpty(enteredText)) {
             editText.setError(editText.getContext().getString(R.string.required_filed_error_message));
-        }else if(enteredText.length() <= 3){
+        } else if (enteredText.length() <= 3) {
             editText.setError(editText.getContext().getString(R.string.short_text_error_message));
-        }else {
+        } else {
             return true;
         }
 

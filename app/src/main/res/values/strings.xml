@@ -2,9 +2,22 @@
 <resources>
 
     <string name="app_name">EightJokes</string>
-    <string name="title_section1" translatable="false">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="title_section_last_jokes">Last Jokes</string>
+    <string name="title_section_best_jokes">Best Jokes</string>
+    <string name="title_section_animals">Animals</string>
+    <string name="title_section_black_humor">Black Humor</string>
+    <string name="title_section_blondes">Blondes</string>
+    <string name="title_section_chuck_norris">Chuck Norris</string>
+    <string name="title_section_dark_people">Dark people</string>
+    <string name="title_section_dirty">Dirty</string>
+    <string name="title_section_facebook">Facebook</string>
+    <string name="title_section_gays">Gays</string>
+    <string name="title_section_it">IT</string>
+    <string name="title_section_little_johny">Little Johny</string>
+    <string name="title_section_men_women">Men / Women</string>
+    <string name="title_section_sex">Sex</string>
+    <string name="title_section_sport">Sport</string>
+    <string name="title_section_yo_mama">Yo Mama</string>
     <string name="facebook_app_id">793948923975979</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -31,5 +44,10 @@
     <string name="short_text_error_message">Entered text should be longer than 3 symbols</string>
     <string name="loading_login_message">Logging in...</string>
     <string name="loading_sign_up_message">Signing up...</string>
+    <string name="loading_message">Wait for it...</string>
+    <string name="static_comments_text">Comments</string>
+    <string name="share_button_text">Share</string>
+    <string name="up_button_text">Up</string>
+    <string name="down_button_text">Down</string>
 
 </resources>

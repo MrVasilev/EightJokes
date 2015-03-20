@@ -15,12 +15,12 @@ public class Comment extends ParseObject {
 
     }
 
-    public User getAuthor() {
-        return (User) get("author");
+    public String getAuthor() {
+        return (String) get("author_name");
     }
 
-    public void setAuthor(User author) {
-        put("author", author);
+    public void setAuthor(String authorName) {
+        put("author_name", authorName);
     }
 
     public String getContent() {
