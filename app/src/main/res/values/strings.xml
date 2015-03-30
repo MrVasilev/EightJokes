@@ -49,5 +49,8 @@
     <string name="share_button_text">Share</string>
     <string name="up_button_text">Up</string>
     <string name="down_button_text">Down</string>
+    <string name="comment_button_text">Comm</string>
+    <string name="title_activity_comment">Comments</string>
+    <string name="write_comment_hint">Write your Comment</string>
 
 </resources>

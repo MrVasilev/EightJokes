@@ -22,7 +22,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.neverland.eightjokes.Constants;
-import com.neverland.eightjokes.MainActivity;
+import com.neverland.eightjokes.main.MainActivity;
 import com.neverland.eightjokes.R;
 import com.neverland.eightjokes.Utils;
 import com.parse.FindCallback;

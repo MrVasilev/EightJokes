@@ -7,7 +7,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="2"
+        android:layout_marginBottom="@dimen/margin_10dp"
         android:layout_gravity="center_horizontal">
 
         <TextView
@@ -24,43 +25,38 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="4"
-        android:layout_gravity="center_horizontal">
+        android:layout_weight="7">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="137"
             android:layout_marginLeft="@dimen/margin_10dp"
             android:id="@+id/numberOfCommentsTextView"
-            android:layout_above="@+id/linearLayout2"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/static_comments_text"
-            android:layout_marginLeft="@dimen/margin_10dp"
             android:id="@+id/staticCommentsTextView"
-            android:layout_above="@+id/linearLayout2"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/margin_10dp"
             android:layout_toRightOf="@+id/numberOfCommentsTextView"
             android:layout_toEndOf="@+id/numberOfCommentsTextView" />
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/share_button_text"
-            android:id="@+id/shareButton"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="6"
+        android:layout_gravity="center_horizontal">
 
         <LinearLayout
-            android:layout_width="150dp"
+            android:layout_width="210dp"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/shareButton"
             android:layout_centerVertical="true"
@@ -86,10 +82,29 @@
                 android:text="@string/down_button_text"
                 android:layout_weight="1"
                 android:id="@+id/rateDownButton"
+                android:layout_alignBottom="@+id/shareButton" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/comment_button_text"
+                android:layout_weight="1"
+                android:id="@+id/commentButton"
                 android:layout_alignBottom="@+id/shareButton"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
         </LinearLayout>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/share_button_text"
+            android:id="@+id/shareButton"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
 </LinearLayout>
