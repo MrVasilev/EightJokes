@@ -82,6 +82,8 @@ public class JokesAdapter extends BaseAdapter {
 
         viewHolder.shareButton.setOnClickListener(rowButtonsOnClickListener);
         viewHolder.commentButton.setOnClickListener(rowButtonsOnClickListener);
+        viewHolder.rateUpButton.setOnClickListener(rowButtonsOnClickListener);
+        viewHolder.rateDownButton.setOnClickListener(rowButtonsOnClickListener);
         viewHolder.jokeContentTextView.setText(currentJoke.getContent());
 
         return convertView;
@@ -116,6 +118,14 @@ public class JokesAdapter extends BaseAdapter {
                         openJokeCommentScreen(selectedJoke);
                         break;
 
+                    case R.id.rateUpButton:
+                        rateJoke(selectedJoke, true);
+                        break;
+
+                    case R.id.rateDownButton:
+                        rateJoke(selectedJoke, false);
+                        break;
+
                     default:
                         break;
                 }
@@ -146,6 +156,18 @@ public class JokesAdapter extends BaseAdapter {
             Intent commentIntent = new Intent(activity, CommentActivity.class);
             commentIntent.putExtra("joke_id", joke.getObjectId());
             activity.startActivity(commentIntent);
+        }
+    }
+
+    private void rateJoke(Joke joke, boolean isPositive) {
+
+        if (joke != null) {
+
+            if (isPositive) {
+                joke.incrementRateUp();
+            } else {
+                joke.incrementRateDown();
+            }
         }
     }
 
