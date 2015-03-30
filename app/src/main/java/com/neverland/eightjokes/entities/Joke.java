@@ -23,7 +23,8 @@ public class Joke extends ParseObject {
     }
 
     public void setAuthor(String authorName) {
-        put("author_name", authorName);
+        if (authorName != null)
+            put("author_name", authorName);
     }
 
     public String getContent() {
@@ -31,7 +32,8 @@ public class Joke extends ParseObject {
     }
 
     public void setContent(String content) {
-        put("content", content);
+        if (content != null)
+            put("content", content);
     }
 
     public int getRateUp() {
@@ -63,7 +65,8 @@ public class Joke extends ParseObject {
     }
 
     public void setCategoryName(String categoryName) {
-        put("category_name", categoryName);
+        if (categoryName != null)
+            put("category_name", categoryName);
     }
 
     public JSONArray getComments() {
@@ -71,11 +74,12 @@ public class Joke extends ParseObject {
     }
 
     public void setComments(ArrayList<Comment> comments) {
-        addAll("comments", comments);
+        if (comments != null)
+            addAll("comments", comments);
     }
 
     public void addComment(Comment comment) {
-
-        add("comments", comment);
+        if (comment != null)
+            add("comments", comment);
     }
 }

@@ -9,6 +9,13 @@
         <dex dex="D:\Development\AndroidStudio\EightJokes\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-5da21ef642bc3c486efe5ca9013db1f1bb8b7e59.jar" />
     </item>
     <item
+        jar="C:\Users\Vasilev\.gradle\caches\modules-2\files-2.1\com.github.bumptech.glide\glide\3.5.2\ecf534dba3a8446ce84cbb797d314763be212a68\glide-3.5.2.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="ecf534dba3a8446ce84cbb797d314763be212a68">
+        <dex dex="D:\Development\AndroidStudio\EightJokes\app\build\intermediates\pre-dexed\debug\glide-3.5.2-b933ed0fa5c87844153fad5905a1458c73813538.jar" />
+    </item>
+    <item
         jar="D:\Development\AndroidStudio\EightJokes\app\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\3.22.0\classes.jar"
         jumboMode="false"
         revision="21.1.1"

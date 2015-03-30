@@ -44,6 +44,15 @@ public class CommentsAdapter extends BaseAdapter {
         return position;
     }
 
+    public void addItem(Comment comment) {
+        if (comment != null)
+            allComments.add(comment);
+    }
+
+    public void clear() {
+        allComments.clear();
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

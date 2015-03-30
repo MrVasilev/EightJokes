@@ -52,5 +52,8 @@
     <string name="comment_button_text">Comm</string>
     <string name="title_activity_comment">Comments</string>
     <string name="write_comment_hint">Write your Comment</string>
+    <string name="post_button_text">Post</string>
+    <string name="successfully_post_comment_message">Your comment was posted</string>
+    <string name="empty_comment_message">You should write some comment</string>
 
 </resources>

@@ -8,17 +8,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/commentsListView"
+        android:layout_marginBottom="@dimen/margin_10dp"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/commentEditText" />
 
     <EditText
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/comment_edit_text_height"
+        android:layout_height="wrap_content"
         android:id="@+id/commentEditText"
         android:hint="@string/write_comment_hint"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:layout_toLeftOf="@+id/postButton"
+        android:layout_toStartOf="@+id/postButton" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/post_button_text"
+        android:id="@+id/postButton"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 </RelativeLayout>

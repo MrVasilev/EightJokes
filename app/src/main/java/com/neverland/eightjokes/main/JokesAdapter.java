@@ -95,7 +95,7 @@ public class JokesAdapter extends BaseAdapter {
 
                 View parentRow = (View) view.getParent().getParent();
 
-                if(view.getId() == R.id.commentButton)
+                if (view.getId() == R.id.commentButton)
                     parentRow = (View) parentRow.getParent();
 
                 ListView listView = (ListView) parentRow.getParent();
@@ -144,7 +144,7 @@ public class JokesAdapter extends BaseAdapter {
         if (joke != null) {
 
             Intent commentIntent = new Intent(activity, CommentActivity.class);
-            commentIntent.putExtra("joke", joke.toString());
+            commentIntent.putExtra("joke_id", joke.getObjectId());
             activity.startActivity(commentIntent);
         }
     }

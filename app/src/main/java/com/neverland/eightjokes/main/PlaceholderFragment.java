@@ -120,6 +120,9 @@ public class PlaceholderFragment extends Fragment {
         ((MainActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
     }
 
+    /**
+     * Get jokes by selected category
+     */
     private void getJokesByCategory() {
 
         progressDialog.show();
